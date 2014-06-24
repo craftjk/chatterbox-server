@@ -44,7 +44,7 @@ var app = {
       app.fetch();
     }, 5000);
   },
-  server: 'http://127.0.0.1:3000/1/classes/messages',
+  server: 'http://127.0.0.1:3000/classes/1',
   handleSubmit: function(text, username, room){
     if(room = 'all'){
       room = '';
@@ -64,6 +64,7 @@ var app = {
       contentType: 'application/json',
       success: function(data) {
         console.log("Message sent");
+        app.fetch();
       },
       error: function(data) {
         console.log('Error: Message not sent');
@@ -79,7 +80,7 @@ var app = {
         app.display(data);
       },
       error: function() {
-        console.log('Erro: Could not fetch');
+        console.log('Error: Could not fetch');
       }
     });
   }

@@ -9,10 +9,13 @@ module.exports.handler = function(request, response) {
   /* the 'request' argument comes from nodes http module. It includes info about the
   request - such as what URL the browser is requesting. */
   var method = request.method;
+  console.log("type: " + request.type);
+  console.log("method: " + request.method);
   var url = request.url;
   var uri = request.uri;
-  console.log('uri');
   var path = url.split('/') || uri.split('/');
+
+  console.log("path[1]: " + path[1]);
 
 
   /* Documentation for both request and response can be found at
@@ -25,10 +28,9 @@ module.exports.handler = function(request, response) {
   var headers = defaultCorsHeaders;
 
 
-  if (request.method === "POST" && (path[1] === 'classes')) {
-    console.log('HEEEERRREEE');
+  if ((request.method === "POST") && (path[1] === 'classes')) {
+    console.log('Handling POST request...');
     var statusCode = 201;
-    console.log("in POST if clause");
     headers['Content-Type'] = "application/json";
     var data = '';
     request.on('data', function(chunk) {
@@ -36,21 +38,26 @@ module.exports.handler = function(request, response) {
     });
     request.on('end', function(){
       var parsedData = JSON.parse(data);
-      responseMsg.results.push(parsedData);
+      parsedData.createdAt = Date.now();
+      responseMsg.results.unshift(parsedData);
       response.writeHead(statusCode, headers);
       response.end(JSON.stringify(parsedData));
     });
   } else if (request.method === "GET" && path[1] === 'classes') {
     var statusCode = 200;
-    console.log("in GET if clause");
+    console.log("Handling GET request...");
     headers['Content-Type'] = "application/json";
     response.writeHead(statusCode, headers);
     response.end(JSON.stringify(responseMsg));
+  } else if (request.method === "OPTIONS") {
+    var statusCode = 200;
+    response.writeHead(statusCode, headers);
+    response.end();
   } else {
     var statusCode = 404;
     headers['Content-Type'] = "text/plain";
     response.writeHead(statusCode, headers);
-    response.end("404 - we have a team of trained monkeys working on the issue");
+    response.end("404 - we have a team of trained monkeys working on the issue. AKA we are trained monkeys.");
   }
 
 
