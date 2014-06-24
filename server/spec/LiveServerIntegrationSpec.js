@@ -1,6 +1,6 @@
 var request = require('request');
 var expect = require('../../node_modules/chai/chai').expect;
-var basicServer = require('../basic-server').server;
+// var basicServer = require('../basic-server').server;
 
 describe('Live Node Chat Server', function() {
   it('Should respond to GET requests for /log with a 200 status code', function(done) {
@@ -36,7 +36,7 @@ describe('Live Node Chat Server', function() {
 
   it('Should accept POST requests to /send', function(done) {
     var requestParams = {method: 'POST',
-      uri: 'http://127.0.0.1:3000/classes/messages',
+      uri:'http://127.0.0.1:3000/classes/messages',
       json: {
         username: 'Jono',
         message: 'Do my bidding!'}

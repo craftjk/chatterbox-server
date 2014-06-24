@@ -44,7 +44,7 @@ var app = {
       app.fetch();
     }, 5000);
   },
-  server: 'http://127.0.0.1:3000',
+  server: 'http://127.0.0.1:3000/1/classes/messages',
   handleSubmit: function(text, username, room){
     if(room = 'all'){
       room = '';
@@ -72,7 +72,8 @@ var app = {
   },
   fetch: function() {
     $.ajax({
-      url: app.server + '?order=-createdAt',
+      url: app.server,
+      // url: app.server + '?order=-createdAt',
       type: 'GET',
       success: function(data) {
         app.display(data);
